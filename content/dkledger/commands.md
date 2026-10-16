@@ -27,6 +27,8 @@ Add `day`, `week` or `month` to commands that take a period.
 | `/ledger reverse <entry id>` | Undoes one ledger entry. Asks you to confirm. Owners only. |
 | `/ledger scan`, `findings`, `budget`, `report` | The config audit. See [Config audit and what-if](audit.md). |
 | `/ledger whatif <change>` | The simulator. Type it alone to see the options. |
+| `/ledger price <item> [price] [plugin]` | Checks a sell price: Fair, OP or Meh, with reasons and a fair range. See [Price checker](price-checker.md). |
+| `/ledger discord [status\|test\|daily\|weekly]` | Shows what the [Discord](discord.md) webhook has switched on, sends a test, or sends the daily or weekly message now. |
 | `/ledger weekly` | Writes the weekly report now. |
 | `/ledger reload` | Reloads `config.yml` and `messages.yml`. |
 | `/ledger summary [now\|mute\|off\|on]` | Shows the "while you were away" summary now, mutes it for today, or turns it off or on for you. |

@@ -8,6 +8,8 @@ visibility: private
 
 This page lists exactly where each alert trips and what the audit treats as a problem. It is **left out of the published wiki**, because anyone who knows the limits can stay just under them. Build the wiki with `WIKI_PRIVATE=1` (or run `npm run dev`) to read it.
 
+The `checks` section also holds the OneBlock drop levels (`checks.oneblock`) and the price checker limits (`checks.price-check`), which the [Price checker](price-checker.md) and the [audit](audit.md) use.
+
 Change values in `plugins/dkLedger/config.yml`, then run `/ledger reload`. Each alert has a `warning` level and a `critical` level, and a lower `sink-ratio` is worse, not better.
 
 ## Every threshold

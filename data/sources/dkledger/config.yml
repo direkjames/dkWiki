@@ -34,7 +34,7 @@ ledger:
 # What's recorded besides money. All of it starts the moment a player joins, so later updates (player
 # profiles, new-player progression, inflation index, forecast) can use it from day one.
 tracking:
-  # Items bought and sold in shops: shop and EconomyShopGUI, plus plugins that report through the API.
+  # Items bought and sold in shops: dkStock and EconomyShopGUI, plus plugins that report through the API.
   items: true
   # Each player's first join, and minutes played per day (active and AFK).
   playtime: true
@@ -105,7 +105,7 @@ alerts:
   staff-money: {warning: 10000}
   # B7: share of all money held by the richest 10% (once there are min-accounts players).
   top-share: {warning: 0.60, critical: 0.75, min-accounts: 10}
-  # B8: a shop price moving this much in this many days.
+  # B8: a dkStock price moving this much in this many days.
   price-change: {warning: 0.30, critical: 0.60, days: 7}
   # B9: money a player gets in one day from accounts on the same connection (likely alts).
   alt-transfers: {warning: 5000, critical: 20000}
@@ -143,6 +143,7 @@ scan:
 # Each can list several places; the first one that exists is used.
 plugins:
   economyshopgui-shops: ["EconomyShopGUI-Premium/shops", "EconomyShopGUI/shops"]
+  dkstock: ["dkStock"]
   virtual-spawner: ["VirtualSpawner", "Virtual Spawner"]
   head-database: ["HeadDatabase/config.yml"]
   dkbank: ["dkBank"]
@@ -242,8 +243,25 @@ checks:
     chest-item-value: 500
     # Warn when a phase pays more than this per block broken, on average.
     phase-average-warn: 3.0
+    # The enchantment levels players are assumed to mine and kill with, so the numbers are the worst case.
+    # This server gives unsafe levels (Fortune IV, Looting IV). Vanilla's maximum is 3.
+    fortune: 4
+    looting: 4
+    # AOneBlock phases list blocks and mobs; mobs are assumed to share one roll with the blocks.
+    # Multiply the mob weights by this (0 = leave mobs out) if your tests show another rate.
+    mob-weight-factor: 1.0
 
-  # shop: players sell at the base price minus tax-percent (false = at the base price).
+  # /ledger price: the sell-price checker (Fair, OP or Meh).
+  price-check:
+    # A sell price this many times the median of the other shops' prices is OP.
+    market-op-ratio: 1.5
+    # A sell price below this share of that median is Meh (not worth anyone's time).
+    market-meh-ratio: 0.4
+    # A spawner drop that pays more than this per hour from one spawner is OP.
+    spawner-hourly-max: 500
+
+  # dkStock: players sell at the base price minus tax-percent (false = at the base price).
+  dkstock-tax-on-sell: true
 
   # A8: commands that are never reported as unknown, and "file:key" places that aren't checked.
   commands:

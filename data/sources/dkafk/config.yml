@@ -1,0 +1,194 @@
+# ============================================================
+#  dkAFK configuration (formerly DirekAntiAFK)  -  by direk james
+#  Text uses MiniMessage: https://docs.advntr.dev/minimessage/format.html
+#  Times accept: 300 (seconds), 5m, 1h30m, 1:30 (hours:minutes)
+#
+#  All text supports PlaceholderAPI placeholders for the player it's about.
+#  The defaults use:
+#    %player%        the player's name (built in, no expansion needed)
+#    %dkafk_idle%    this plugin's own placeholder (how long they've been idle)
+#  The old %antiafk_...% placeholders still work too.
+#  <prefix> is the prefix below.
+# ============================================================
+
+prefix: "<dark_gray>[<red>dkAFK</red>]</dark_gray> "
+
+# Show the dkAFK banner in the console on startup
+startup-banner: true
+
+# ------------------------------------------------------------
+#  Timing
+# ------------------------------------------------------------
+# A player is marked AFK (tag shows) after this long with no real activity.
+afk-time: "5m"
+
+# When a player has had no real activity for this long in total (counted from their
+# last activity, so it includes afk-time), the "Are you still there?" check appears.
+# If they don't answer within check.timeout, the actions below run.
+#
+# Use a fixed time ("10m") or a range ("6m-10m"). With a range, every AFK period
+# picks its own random time inside it, so players can't learn exactly when it comes.
+# Must be longer than afk-time.
+action-time: "6m-10m"
+
+# If a player logs out and back in within this long, their idle time carries over,
+# so relogging (or an auto-reconnect mod) doesn't reset the AFK timer. "0" turns it off.
+rejoin-memory: "10m"
+
+# ------------------------------------------------------------
+#  "Are you still there?" check
+# ------------------------------------------------------------
+check:
+  # false = skip the check and run the actions straight away at action-time
+  enabled: true
+  # dialog = popup window with a button (needs a 1.21.6+ client)
+  # chat   = clickable chat message (works everywhere, e.g. for Bedrock later)
+  type: dialog
+  # How long the player has to answer
+  timeout: "30s"
+  dialog:
+    title: "<red><bold>Are you still there?"
+    body: "<gray>You've been AFK for <white>%dkafk_idle%</white>.\n<gray>Press the button within <white><timeout></white> or you'll be moved for being AFK."
+    button: "<green><bold>I'm here!"
+    button-tooltip: "<gray>Click to continue playing"
+  chat:
+    message: "<prefix><red>Are you still there? <gray>Click the button within <white><timeout></white>:"
+    button: "<green><bold>[I'm here!]"
+    button-hover: "<gray>Click to continue playing"
+  passed-message: "<prefix><green>Thanks! Carry on."
+
+# ------------------------------------------------------------
+#  Actions: run when the player doesn't answer the check
+#  Each line starts with one of:
+#    [console]   run as console (default if no tag)
+#    [player]    run as the player
+#    [message]   send the player a MiniMessage text
+#    [broadcast] send everyone a MiniMessage text
+#    [teleport]  world x y z [yaw pitch] - instant teleport, no warmup
+#  %player% and PlaceholderAPI placeholders work in every line.
+# ------------------------------------------------------------
+actions:
+  - "[message] <prefix><gray>You were AFK for <white>%dkafk_idle%</white>, sending you to the AFK area."
+  - "[console] warp AFKZone %player%"
+  # Or skip the warp plugin and its warmup entirely:
+  # - "[teleport] world 0.5 100 0.5 180 0"
+
+# When the actions run, take the player out of any vehicle and hold them in place
+# for this long. Without this, water, bubble columns, minecarts or pistons keep
+# moving them and cancel warps that have a "don't move" warmup.
+# Set it a bit longer than your warp delay. They're released as soon as the warp
+# teleports them. "0" turns it off.
+freeze-on-actions: "5s"
+
+# ------------------------------------------------------------
+#  Return: after the actions run, send the player back to where they were
+#  as soon as they're active again.
+# ------------------------------------------------------------
+return:
+  enabled: true
+  message: "<prefix><green>Welcome back! Taking you back to where you were."
+
+# ------------------------------------------------------------
+#  AFK tag for TAB / chat: %dkafk_tag% shows this while the player is AFK
+#  and nothing otherwise. Example TAB suffix: "%dkafk_tag%"
+# ------------------------------------------------------------
+afk-tag: " <gray>[AFK]"
+# legacy      = §-color codes (TAB, most plugins)
+# minimessage = the raw text above (for plugins that read MiniMessage)
+placeholder-format: legacy
+
+# ------------------------------------------------------------
+#  /afk: players mark themselves AFK (permission dkafk.afk)
+#  It works like being AFK from idling: the tag shows, and moving, looking around or
+#  chatting brings them back. /afk again also brings them back, but only if they've
+#  been active within afk-time, so it can never be used to reset the AFK timer.
+#  The check and actions still come at action-time, counted from their last activity.
+# ------------------------------------------------------------
+afk-command:
+  # How often a player can use /afk ("0" = no limit)
+  cooldown: "3s"
+
+# ------------------------------------------------------------
+#  Who and where
+# ------------------------------------------------------------
+# Players with dkafk.bypass are never marked AFK.
+# OP players are skipped too while this is true. To test the plugin on yourself, set
+# it to false (and leave creative mode). /dkafk check <player> shows if someone is exempt.
+exempt-ops: true
+exempt-gamemodes: [CREATIVE, SPECTATOR]
+
+worlds:
+  # blacklist = check every world except the ones listed
+  # whitelist = only check the worlds listed
+  mode: blacklist
+  # BentoBox AOneBlock defaults: oneblock_world, oneblock_world_nether, oneblock_world_the_end
+  list: []
+
+# ------------------------------------------------------------
+#  Detection tuning (the defaults work for most servers)
+# ------------------------------------------------------------
+detection:
+  # Clicking-type activity (breaking, placing, clicking, attacking, fishing, eating,
+  # dropping, inventory clicks, commands) only keeps a player active for this long after
+  # they last looked around, moved or chatted. Auto-clickers and macros at any speed can't
+  # keep anyone active on their own. Clicking also can't end AFK; looking or moving does.
+  click-only-limit: "1m"
+  look:
+    # Turning less than this doesn't count (degrees)
+    min-degrees: 1.0
+    # The view is split into squares this many degrees wide. Looking into a square used in
+    # the last N turns doesn't count, which stops look macros (back-and-forth, spinning,
+    # random camera wiggle). Bigger squares catch wider wiggles.
+    cell-degrees: 2.0
+    history: 200
+  movement:
+    # Moving less than this from the last spot doesn't count (blocks).
+    # Being carried (water, bubble columns, minecarts, boats, pistons, pushing) never counts.
+    radius: 3.0
+    # Coming back to one of the last N spots doesn't count (stops loops and AFK pools).
+    # 16 spots covers loops up to about 48 blocks long.
+    loop-memory: 16
+  repeat:
+    # The same action on the same target (breaking the oneblock, clicking the same block,
+    # the same chat message) stops counting after this long without a break. When that
+    # happens, none of the repetition counts: the timer goes back to when it started.
+    max-streak: "1m"
+    # A pause longer than this ends the streak
+    reset-after: "10s"
+  clicks:
+    # Auto-clicker check. Every 16 clicks form a group; if the groups take almost exactly the
+    # same time, the clicking is automated (network lag shifts single clicks but not whole groups).
+    # When caught, the clicks it made stop counting, going back to when the run started.
+    # How many recent clicks to compare (multiple of 16, at least 48)
+    samples: 80
+    # Groups whose lengths differ by less than this are machine-timed. Raise it if a clicker
+    # on a laggy connection isn't caught; lower it if fast-clicking players get flagged.
+    tolerance-ms: 150
+    # Only clicking faster than once per this many ms is checked
+    max-average-ms: 2000
+    # A pause this long starts a new run of clicks
+    pause: "5s"
+  # Commands that don't count as activity (without the slash)
+  ignored-commands: []
+
+# ------------------------------------------------------------
+#  Messages (PlaceholderAPI placeholders refer to the player the message is about)
+# ------------------------------------------------------------
+messages:
+  now-afk: "<prefix><gray>You are now AFK."
+  no-longer-afk: "<prefix><gray>You are no longer AFK."
+  # Sent to everyone. Leave "" to stay quiet.
+  broadcast-afk: ""   # e.g. "<gray>%player% is now AFK"
+  broadcast-back: ""
+  # Commands
+  reloaded: "<prefix><green>Configuration reloaded."
+  player-not-found: "<prefix><red>That player isn't online."
+  list-header: "<prefix><gray>AFK players (<white><count></white>):"
+  list-entry: " <dark_gray>-</dark_gray> <white>%player%</white> <gray>(%dkafk_idle%)"
+  list-empty: "<prefix><gray>Nobody is AFK."
+  debug-on: "<prefix><gray>Showing activity debug for <white>%player%</white>. Run again to stop."
+  debug-off: "<prefix><gray>Stopped activity debug for <white>%player%</white>."
+  # /afk
+  afk-command-on: "<prefix><gray>You are now AFK. Move or look around to come back."
+  afk-command-idle: "<prefix><gray>You're AFK from being idle. Move or look around to come back."
+  afk-command-cooldown: "<prefix><red>Wait <white><time></white> before using /afk again."

@@ -1,0 +1,153 @@
+# dkCrates config - Author: direk james
+# Crates live in plugins/dkCrates/crates/ (one file per crate).
+# Items saved with /crates item save are in plugins/dkCrates/items.yml.
+
+# Console logo on startup. false = one short log line instead.
+startup-banner: true
+
+# The /crates menu. Everything here can be changed; /crates reload applies it.
+# Crate icons come from each crate file ("icon:", "slot:", "menu-lore:", "show-in-menu:").
+# Items can be a material, a Nexo item (nexo:<id>) or an item saved with /crates item save.
+menu:
+  title: "<dark_gray>Crates"
+  # 1-6 rows, or 0 = grow with the number of crates
+  rows: 3
+  # Empty slots. "" = leave them empty.
+  filler: GRAY_STAINED_GLASS_PANE
+  # Where crates WITHOUT "slot:" go, in order. New crates fill these automatically.
+  # Examples: "10-16" or "10-16, 19-25". "" = any free slot.
+  crate-slots: "10-16, 19-25"
+  # Lines under each crate icon (a crate file can set its own with "menu-lore:"). <keys> = the player's keys.
+  lore:
+    - ""
+    - "<gray>Keys: <white><keys>"
+    - ""
+    - "<yellow>Left-click</yellow> <gray>to open"
+    - "<yellow>Right-click</yellow> <gray>to preview"
+    - "<yellow>Shift-click</yellow> <gray>to open all"
+  # Added when the player doesn't have the crate's "permission:"
+  locked-lore:
+    - "<red>🔒 Donor rank needed"
+  # Added for mystery crates ("preview: false")
+  mystery-lore:
+    - "<light_purple>❓ Mystery crate: rewards are a secret"
+  # Shine on crates you have keys for, and show the key count as the stack size
+  glow-with-keys: true
+  amount-shows-keys: true
+  # Extra items: decorations, info, buttons. Remove the examples you don't want ("items: {}" = none).
+  # slot: one slot. slots: "0-8" or [0, 8]. commands: run AS THE PLAYER when clicked (no "/").
+  # PlaceholderAPI placeholders work in names and lore.
+  items:
+    info:
+      slot: 4
+      item: NETHER_STAR
+      name: "<gold><bold>Crates"
+      lore:
+        - "<gray>Get keys by voting and in events!"
+        - "<gray>Click to see how to vote."
+      commands:
+        - "vote"
+    claim:
+      slot: 22
+      item: CHEST
+      name: "<yellow>Unclaimed rewards"
+      lore:
+        - "<gray>Rewards that didn't fit wait here."
+      commands:
+        - "crates claim"
+
+# The preview menu (pages fill up automatically)
+preview:
+  title: "<crate> <dark_gray>Preview"
+  # Lines added under each reward. <chance> = exact % chance per key, <rarity> = rarity name.
+  lore:
+    - ""
+    - "<gray>Rarity: <rarity>"
+    - "<gray>Chance: <white><chance>%"
+  # Extra lines for pool rewards (one per entry). <entry> = what it gives, <chance> = % inside the pool.
+  pool-header: "<gray>One of:"
+  pool-line: "<dark_gray> • <entry> <dark_gray>(<chance>%)"
+  # Extra lines when a pool gives 2 or more entries: <pick> = how many
+  pool-header-multi: "<gray><pick> of:"
+  # Rewards with "stock:" (whole server) or "max-wins:" (per player). "" = hide.
+  stock-line: "<gray>Left: <white><left></white>/<white><stock>"
+  sold-out-line: "<red>Sold out"
+  wins-line: "<gray>Your wins: <white><wins></white>/<white><max>"
+  maxed-line: "<red>You can't win this again"
+
+# Opening many keys at once (shift-click, or /crates open <crate> all)
+mass-open:
+  # Most keys that can be opened in one go
+  max: 64
+  # Keys opened per tick (20 ticks = 1 second). Lower = smoother on a busy server.
+  per-tick: 8
+
+# How a single key opens: "spin" (CSGO-style menu) or "instant".
+# A crate file can override this with "animation: instant".
+# Mass opening (shift-click) is always instant with one summary message.
+opening:
+  animation: spin
+
+# The spin menu. The reward is picked BEFORE the spin starts: closing the menu
+# or leaving just gives the reward right away.
+spin:
+  title: "<crate>"
+  # How many times the row moves (more = longer spin)
+  steps: 30
+  # Ticks between the last, slowest moves (20 ticks = 1 second)
+  slowest-delay: 6
+  # How long the winner stays on screen before the menu closes
+  hold-ticks: 30
+  frame: GRAY_STAINED_GLASS_PANE
+  win-frame: LIME_STAINED_GLASS_PANE
+  # Mystery crates ("preview: false") show this in every slot until the row stops on the reward
+  mystery-icon: ENDER_CHEST
+  mystery-name: "<light_purple><bold>???"
+  # false = the spin menu can't be closed (it opens again). Leaving the server or dying
+  # mid-spin always sends the reward to /crates claim.
+  allow-close: false
+
+# Crate blocks (/crates setblock <crate>)
+# Left-click = preview, right-click = open one key, shift-right-click = open all keys
+blocks:
+  # Push players back a little when they click without a key. 0 = off.
+  push-back: 0.6
+  # Idle particle ring for every crate block, e.g. END_ROD, HAPPY_VILLAGER, FLAME. "" = none.
+  # A crate file can set its own with "particle: ...".
+  particle: ""
+
+# Holograms above crate blocks
+holograms:
+  enabled: true
+  # A crate file can set its own lines with "hologram:". <crate>, <key> and <rewards> work here.
+  lines:
+    - "<crate>"
+    - "<gray>Left-click to preview"
+    - "<gray>Right-click to open"
+  # An extra line under the hologram that only each player sees. <keys> <key>. "" = off.
+  keys-line: "<gray>Your keys: <white><keys>"
+  # Height above the top of the block
+  height: 0.15
+  # Seen from this many blocks away
+  view-range: 32
+  # A dark box behind the text
+  background: false
+  shadow: true
+
+# Sounds (Minecraft sound IDs). "" = no sound.
+sounds:
+  open: "block.chest.open"
+  win: "entity.player.levelup"
+  no-keys: "entity.villager.no"
+  spin-tick: "block.note_block.hat"
+
+# The open log (/crates log <player>). Entries older than this are deleted on startup. 0 = keep forever.
+logs:
+  keep-days: 90
+  per-page: 10
+  # Time format in /crates log (Java DateTimeFormatter)
+  time-format: "MMM d, HH:mm"
+
+# Unclaimed rewards (items that didn't fit in the inventory go to /crates claim)
+claim:
+  remind-on-join: true

@@ -1,0 +1,34 @@
+name: dkCodes
+version: '${version}'
+main: com.direk.dkcodes.DkCodes
+api-version: '26.1'
+author: direk james
+description: Redeem codes for the dk suite.
+depend: [dkCore]
+
+commands:
+  redeem:
+    description: Redeem a code, or claim waiting reward items.
+    usage: /redeem <code> | /redeem claim
+    permission: dkcodes.use
+  dkcodes:
+    description: Manage redeem codes.
+    usage: /dkcodes help
+    aliases: [dkc]
+    permission: dkcodes.admin
+
+permissions:
+  dkcodes.use:
+    description: Use /redeem.
+    default: true
+  dkcodes.admin:
+    description: Use /dkcodes and the admin GUI.
+    default: op
+    children:
+      dkcodes.alerts: true
+  dkcodes.alerts:
+    description: See alerts when a player is locked out for guessing codes.
+    default: op
+  dkcodes.bypass:
+    description: Skip the /redeem cooldown and the wrong-code lockout.
+    default: op

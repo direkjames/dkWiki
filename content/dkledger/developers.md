@@ -10,18 +10,18 @@ dkLedger has a small API, `LedgerApi`, and one event, `LedgerAlertEvent`. Use th
 ## Add it to your plugin
 
 ```kotlin title="build.gradle.kts"
-compileOnly("com.direk:dkledger:0.5.0")
+compileOnly("com.direk:dkledger:0.6.0")
 ```
 
 ```yaml title="plugin.yml"
 softdepend: [dkLedger]
 ```
 
-dkLedger compiles against several APIs from your local Maven repository, including dkCore's and dkBank's. Publish those first (`./gradlew publishToMavenLocal` in dkCore, `./gradlew :api:publishToMavenLocal` in dkBank), then run `./gradlew build` in dkLedger. The jar is `build/libs/dkLedger-<version>.jar`, and it goes in `plugins/` next to dkCore.
+dkLedger compiles against three APIs from your local Maven repository: dkCore, dkBank and dkStock. Publish those first (`./gradlew publishToMavenLocal` in dkCore, and `./gradlew :api:publishToMavenLocal` in dkBank and dkStock), then run `./gradlew build` in dkLedger. The jar is `build/libs/dkLedger-<version>.jar`, and it goes in `plugins/` next to dkCore.
 
 ## Reading data and alerts
 
-`LedgerApi` has everything `/ledger` has: supply, sources, player summaries, alerts and resolving them, freeze, unfreeze, notes, reverse, the scan and the simulator, plus items, reasons and activity. Futures complete on the main thread.
+`LedgerApi` has everything `/ledger` has: supply, sources, player summaries, alerts and resolving them, freeze, unfreeze, notes, reverse, the scan, the simulator and the price checker (`priceCheck`), plus items, reasons and activity. Futures complete on the main thread.
 
 ```java
 LedgerApi.find().ifPresent(ledger -> ledger.supply().thenAccept(s -> { /* use the supply */ }));
@@ -55,10 +55,11 @@ These calls never throw and can be made from any thread.
 
 | Folder | What is in it |
 |---|---|
-| `audit/` | The config audit. Plain Java with no Bukkit, and tested. `whatif/` is the simulator built on top of it. |
+| `audit/` | The config audit. Plain Java with no Bukkit, and tested. `audit/drops/` works out what blocks and mobs really drop. `whatif/` is the simulator built on top of it, and `price/` is the sell-price checker. |
+| `discord/` | The webhook: message builders, sender, settings and service. |
 | `ledger/` | Recording: the Vault proxy, the EssentialsX and dkBank hooks in `hook/`, source attribution and storage. |
 | `supply/`, `detect/` | Snapshots, the live and hourly checks, and alerts. |
-| `items/` | Item trades and daily item totals. |
+| `items/` | Item trades: the dkStock and EconomyShopGUI hooks, and daily item totals. |
 | `players/` | Playtime (with AFK), first joins and progress events. |
 | `web/` | The dashboard's server, sign-in and JSON. The page itself is in `resources/web/`. |
 | `admin/` | Freeze, logins, and `LedgerActions`, which commands, menus and the API share. |

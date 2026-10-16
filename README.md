@@ -38,7 +38,7 @@ people dodge a limit, such as alert thresholds.
 ## Publish
 
 Pushing to `main` builds and deploys to GitHub Pages through `.github/workflows/pages.yml`. In the
-repo settings, set Pages to deploy from GitHub Actions. The site base is `/dkwiki/`; set `WIKI_BASE`
+repo settings, set Pages to deploy from GitHub Actions. The site base is `/dkWiki/`; set `WIKI_BASE`
 to change it.
 
 ## Local scrub rules

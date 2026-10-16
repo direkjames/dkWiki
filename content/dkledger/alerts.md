@@ -12,7 +12,8 @@ An alert means something about the economy deserves a look. It isn't proof of a 
 - In chat, for anyone with `dkledger.alerts`, with a sound if one is set.
 - In `/ledger alerts [open|all] [page]` and in the `/ledger` menu.
 - In the login summary when staff join, if there is a new one.
-- On the Discord bot, through the `LedgerAlertEvent` the API fires.
+- In your Discord channel, if the [Discord webhook](discord.md) is switched on.
+- To other plugins, through the `LedgerAlertEvent` the API fires.
 
 Each alert is either a **warning** or **critical**. The same alert isn't repeated within a few hours unless it gets worse.
 
@@ -30,7 +31,7 @@ Each alert is either a **warning** or **critical**. The same alert isn't repeate
 | **B5** New money source | A plugin moving money for the first time. |
 | **B6** Big staff changes | A large `/eco` or bank change made by staff. |
 | **B7** Wealth concentration | A large share of all money held by the richest 10%. |
-| **B8** Price swings | A shop price moving a lot within a few days. |
+| **B8** Price swings | A shop price, such as a [dkStock](../dkstock/index.md) price, moving a lot within a few days. |
 | **B9** Alt transfers | A player receiving a lot of money from accounts on the same connection. |
 | **B10** Big transfers | One very large transfer between players. |
 
@@ -49,3 +50,6 @@ If an exploit already put money in the wrong hands, an owner can undo single ent
 :::private
 The thresholds for every alert are in [Alerts and audit tuning](tuning.md), which is left out of the published wiki so players can't learn where the limits are.
 :::
+
+> [!NOTE] dkLedger only alerts
+> The circuit breaker and every other check only raise alerts. dkLedger never freezes a player or changes anything by itself. A person decides.

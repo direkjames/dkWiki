@@ -92,6 +92,8 @@
 .p-codes { --pc: #3fae63; }
 .p-commands { --pc: #7587a6; }
 .p-crates { --pc: #ee8a2b; }
+.p-chat { --pc: #1fa7bf; }
+.p-fly { --pc: #e0568b; }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--topbar-h) + 1rem); }
@@ -317,6 +319,7 @@ tbody tr:first-child td { border-top: 0; }
 td:first-child { min-width: 9rem; }
 tbody tr:hover td { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
 table.gen td:nth-child(2) code { white-space: normal; word-break: break-word; }
+.prose td code { overflow-wrap: break-word; }
 .includes { display: block; margin-top: 0.35rem; font-size: 0.86rem; color: var(--ink-3); }
 .includes code { margin-right: 0.2rem; }
 .gen-note { margin: -0.6rem 0 1.5rem; font-size: 0.86rem; color: var(--ink-3); }
@@ -394,7 +397,7 @@ details.more[open] > summary { border-bottom: 1px solid var(--line); }
 .layer-core .layer-title { font-size: 1.35rem; }
 .layer-core .layer-title a { color: var(--accent-ink); text-decoration: none; }
 .layer-link { width: 2px; height: 1.25rem; margin: 0 auto; background: var(--line-strong); }
-.layer-side { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; background: transparent; border-style: dashed; }
+.layer-side { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; background: transparent; border-style: dashed; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.7rem; }
 .chip {
   display: inline-flex; align-items: center; padding: 0.22rem 0.75rem; border-radius: 8px;
@@ -408,6 +411,7 @@ a.chip:hover { border-color: var(--pc); }
 .chip-plain { --pc: var(--ink-3); }
 .chip-dkcore { --pc: #7c5cff; } .chip-dkbank { --pc: #d99a14; } .chip-dkledger { --pc: #14a38b; }
 .chip-dkstock { --pc: #ee6a55; } .chip-dkafk { --pc: #3b9bff; } .chip-dksleep { --pc: #c85bd0; }
+.chip-dkchat { --pc: #1fa7bf; } .chip-dkfly { --pc: #e0568b; }
 .chip-dkcodes { --pc: #3fae63; } .chip-dkcommands { --pc: #7587a6; } .chip-dkcrates { --pc: #ee8a2b; }
 
 /* pager, edit link, footer */

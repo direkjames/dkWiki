@@ -1,0 +1,62 @@
+name: dkCommands
+version: '${version}'
+main: com.direk.dkcommands.DkCommands
+api-version: '26.1'
+author: direk james
+description: Command aliases, cooldowns, hider, blocker, confirmations and logging for the dk suite.
+depend: [dkCore]
+
+commands:
+  dkcommands:
+    description: Manage dkCommands.
+    usage: /dkcommands help
+    # /dkc is taken by dkCodes, so dkCommands uses /dkcmd.
+    aliases: [dkcmd, dkcmds]
+    permission: dkcommands.admin
+  dkconfirm:
+    description: Confirm a command that asked for confirmation.
+    usage: /dkconfirm
+    aliases: [confirm]
+    permission: dkcommands.confirm
+
+permissions:
+  dkcommands.admin:
+    description: Use /dkcommands (reload, check, log, aliases, cooldowns, reset).
+    default: op
+  dkcommands.confirm:
+    description: Use /dkconfirm.
+    default: true
+  dkcommands.bypass.*:
+    description: Skip every dkCommands limit except confirmations.
+    default: op
+    children:
+      dkcommands.bypass.cooldown: true
+      dkcommands.bypass.warmup: true
+      dkcommands.bypass.cost: true
+      dkcommands.bypass.limit: true
+      dkcommands.bypass.blocker: true
+      dkcommands.bypass.hider: true
+  dkcommands.bypass.cooldown:
+    description: No command cooldowns.
+    default: op
+  dkcommands.bypass.warmup:
+    description: No command warmups.
+    default: op
+  dkcommands.bypass.cost:
+    description: Commands with a cost are free.
+    default: op
+  dkcommands.bypass.limit:
+    description: No daily command limits.
+    default: op
+  dkcommands.bypass.blocker:
+    description: Use and see blocked commands.
+    default: op
+  dkcommands.bypass.hider:
+    description: See every command in the / list and tab completion.
+    default: op
+  dkcommands.bypass.confirm:
+    description: Skip confirmation prompts. Not given to ops on purpose - confirmations protect staff too.
+    default: false
+  dkcommands.log.exempt:
+    description: This player's commands are not logged.
+    default: false

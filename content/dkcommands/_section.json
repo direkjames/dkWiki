@@ -1,0 +1,1 @@
+{ "title": "dkCommands", "kind": "plugin", "order": 9, "icon": "commands", "tagline": "Command aliases, cooldowns and hidden commands.", "version": "1.0.0", "status": "ready" }

@@ -1,0 +1,154 @@
+# ============================================
+#  dkFly - timed flight for our server
+#  Author: direk james
+#
+#  Durations accept: 30 (seconds), 45s, 10m, 1h30m, 2d
+#  Messages are in messages.yml, the fly shop is in gui.yml.
+#  Apply changes with /flytime reload.
+# ============================================
+
+# Fly time is only used while the player is actually in the air.
+# Standing or walking with /fly on costs nothing.
+
+# Worlds where /fly is not allowed (case-sensitive world names).
+# Bypass: dkfly.bypass.world
+world-blacklist:
+  - world_nether
+  - world_the_end
+
+# Highest amount of fly time a player can hold. Use 'none' for no limit.
+# Shop purchases, transfers and /flytime give respect this cap.
+max-time: none
+
+# ---- Flight speed ----
+# Minecraft's normal fly speed is 0.1. Range: 0.01 - 1.0
+speed:
+  default: 0.1
+  # Extra speeds by permission, written as 'permission:speed'.
+  # The fastest one the player has wins.
+  permissions:
+    - 'dkfly.speed.fast:0.15'
+    - 'dkfly.speed.faster:0.2'
+
+# ---- Timer display ----
+display:
+  # Where the remaining fly time is shown while flying:
+  # BOSSBAR, ACTIONBAR, BOTH or NONE (countdown warnings still show on the action bar)
+  mode: BOSSBAR
+  bossbar:
+    # PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12 or NOTCHED_20
+    style: PROGRESS
+    # Colors: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+    # The bar is full when the player starts flying and empties as time runs out.
+    color-high: GREEN
+    color-medium: YELLOW
+    color-low: RED
+    medium-below-percent: 50
+    low-below-percent: 20
+
+# ---- Turning flight off while in the air ----
+landing:
+  # A player using /fly to turn flight off must be within this many blocks of the
+  # ground (or water). Higher up they're told to land first. 3 blocks = no fall damage.
+  self-disable-max-height: 3
+  # What happens when flight is turned off for them while they're in the air:
+  #   BOTH           = Slow Falling + no fall damage
+  #   SLOW_FALLING   = Slow Falling only
+  #   NO_FALL_DAMAGE = they fall normally but take no fall damage on landing
+  #   NONE           = they just fall
+  # Ran out of fly time
+  out-of-time: BOTH
+  # Flew into a blacklisted world or a WorldGuard region with "dkfly deny"
+  restricted-area: NO_FALL_DAMAGE
+  # Hit another player or got hit (combat tag)
+  combat: NONE
+  # A staff member turned their flight off with /fly <player>
+  admin: BOTH
+  # Safety limit for the protection (it always ends as soon as they touch the ground).
+  max-duration: 30s
+
+# ---- Running out of time ----
+countdown:
+  enabled: true
+  # Seconds left when a warning flashes (with a sound) while flying.
+  at: [300, 60, 30, 10, 5, 4, 3, 2, 1]
+  sound:
+    enabled: true
+    key: block.note_block.pling
+    volume: 1.0
+    pitch: 1.4
+
+# ---- Persistence ----
+# Players who log out with fly on keep it on when they log back in,
+# and players who were flying stay in the air (no falling on join).
+persist-toggle: true
+
+# ---- DirekAntiAFK / AFK ----
+afk:
+  # Stop using fly time while the player is AFK (fly stays on).
+  pause-timer: true
+  # Until DirekAntiAFK moves to dkCore, use Purpur's built-in AFK state as a fallback.
+  use-purpur-afk-fallback: true
+
+# ---- Combat tag ----
+# Turns off fly when a player hits or is hit by another player. Bypass: dkfly.bypass.combat
+combat:
+  enabled: true
+  # How long they can't use /fly after the last hit.
+  cooldown: 15s
+
+# ---- WorldGuard ----
+# Adds a region flag:  /rg flag <region> dkfly deny
+# Unset or 'allow' = flying allowed. Bypass: dkfly.bypass.region
+worldguard:
+  enabled: true
+
+# ---- PlaceholderAPI ----
+# %dkfly_time%          remaining time (uses time-format below)
+# %dkfly_time_seconds%  remaining time in seconds
+# %dkfly_enabled%       true / false
+# %dkfly_status%        status text from below
+# %dkfly_unlimited%     true / false
+placeholders:
+  unlimited: '∞'
+  status-on: '<green>ON'
+  status-off: '<red>OFF'
+
+# How fly time is shown in messages, the boss bar, the shop and %dkfly_time%.
+time-format:
+  # compact = 1h 5m 3s     digital = 01:05:03
+  style: compact
+  separator: ' '
+  hide-zero-units: true
+  zero: '0s'
+  labels:
+    day: 'd'
+    hour: 'h'
+    minute: 'm'
+    second: 's'
+
+# ---- Transfer (/flytime pay <player> <time>) ----
+transfer:
+  enabled: true
+  min-amount: 1m
+  # Time between transfers per player. Bypass: dkfly.bypass.cooldown
+  cooldown: 1m
+  # Percent of the sent time that is lost as tax (0 = none).
+  tax-percent: 0
+  # Ask the sender to type /flytime confirm first.
+  require-confirm: true
+  confirm-timeout: 30s
+  # Allow sending to players who are offline.
+  allow-offline: true
+
+# ---- Fly shop (/flytime shop) ----
+# Paid with the server economy (dkBank through Vault). Items and layout are in gui.yml.
+shop:
+  enabled: true
+
+# Show the dkFly banner (version, hooks, shop) in the console on startup.
+startup-banner: true
+
+# Save everyone's fly time to the database every N minutes.
+# Purchases, transfers and admin changes are always saved right away.
+autosave-minutes: 5

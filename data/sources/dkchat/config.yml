@@ -1,0 +1,142 @@
+# ==========================================================
+#  dkChat - by direk james
+#  Main settings. Chat formats live in formats.yml and every
+#  message the plugin sends lives in messages.yml.
+#
+#  Colors: every text in these files supports legacy & codes,
+#  HEX (&#FF00AA or <#FF00AA>) and MiniMessage
+#  (https://docs.advntr.dev/minimessage/format.html).
+#
+#  After editing, run /dchat reload.
+# ==========================================================
+
+chat:
+  # When false, dkChat leaves public chat alone (vanilla or another plugin formats it).
+  enabled: true
+
+placeholders:
+  # Some placeholders return text that contains more placeholders. For example, a LuckPerms
+  # prefix set to "%nexo_dev% &7Dev" makes %luckperms_prefix% return "%nexo_dev% &7Dev".
+  # PlaceholderAPI doesn't expand those, so dkChat does it for the identifiers listed here
+  # (the part before the first underscore, e.g. "nexo" for %nexo_dev%).
+  # Only list plugins you trust: anything listed can be expanded inside other values.
+  # Nexo glyph tags (<glyph:id>) are left in the text for Nexo to render.
+  nested-identifiers:
+    - nexo
+
+name-hover:
+  # Show a tooltip when hovering over a player's name in chat.
+  # The lines are set per format in formats.yml.
+  enabled: true
+
+# /msg, /m, /tell, /whisper, /w and /r
+private-messages:
+  # {sender} and {receiver} are player names (with the same hover tooltip as public chat).
+  # {message} is the message. PlaceholderAPI placeholders are filled in for the sender.
+  # Leave a format empty ("") to not send that line.
+  sender-format: "<dark_gray>[<gray>You</gray> → {receiver}<dark_gray>]</dark_gray> <#D8C8FF>{message}"
+  receiver-format: "<dark_gray>[{sender} <dark_gray>→</dark_gray> <gray>You</gray>]</dark_gray> <#D8C8FF>{message}"
+  # What players with spy turned on see (dkchat.spy).
+  spy-format: "<dark_gray>[<red>Spy</red>]</dark_gray> {sender} <dark_gray>→</dark_gray> {receiver}<dark_gray>:</dark_gray> <gray>{message}"
+  # Written to the server console/log for every private message between players.
+  log-to-console: true
+  console-format: "[PM] {sender} -> {receiver}: {message}"
+  # How the console's name shows when it sends or receives a message.
+  console-name: "<red>Console"
+  # Sound the receiver hears. Uses Minecraft sound names.
+  sound:
+    enabled: true
+    name: "entity.experience_orb.pickup"
+    volume: 0.6
+    pitch: 1.4
+
+ignore:
+  # Most players one person can have on their /ignore list.
+  max-ignored: 50
+  # Also hide public chat from players you ignore (private messages are always blocked).
+  hide-public-chat: true
+
+# [item], [inv] and [echest] in public chat
+showcase:
+  # How long the [inv] / [echest] previews can be opened after the message was sent.
+  snapshot-expire-minutes: 5
+  # Items bigger than this (in bytes) have book pages and container contents removed from
+  # the chat hover, so a shulker full of books can't kick players. The real item is untouched.
+  max-hover-bytes: 16384
+
+  # Placeholders in every format below: {name} display name, {player} username.
+  # Each tag is only shown once per message; repeats are removed.
+  # Cooldowns are in seconds (dkchat.showcase.bypasscooldown skips them) and survive relogs.
+  item:
+    enabled: true
+    tags: ["[i]", "[item]"]
+    cooldown: 30
+    # {item} is the item name (hover shows the full item), {amount} uses amount-format when more than 1.
+    format: "<dark_gray>[</dark_gray>{item}{amount}<dark_gray>]</dark_gray>"
+    amount-format: "<gray> x{count}</gray>"
+
+  inventory:
+    enabled: true
+    tags: ["[inv]", "[inventory]"]
+    cooldown: 60
+    format: "<dark_gray>[</dark_gray><aqua>{player}'s Inventory</aqua><dark_gray>]</dark_gray>"
+    hover: "<gray>Click to view <white>{player}</white>'s inventory"
+    title: "<dark_gray>{player}'s Inventory"
+
+  enderchest:
+    enabled: true
+    tags: ["[echest]", "[ec]", "[enderchest]"]
+    cooldown: 60
+    format: "<dark_gray>[</dark_gray><light_purple>{player}'s Ender Chest</light_purple><dark_gray>]</dark_gray>"
+    hover: "<gray>Click to view <white>{player}</white>'s ender chest"
+    title: "<dark_gray>{player}'s Ender Chest"
+
+# /ad <message> - rank perk advertisements
+advertisement:
+  enabled: true
+  # Visible length of the message (colors don't count).
+  min-length: 10
+  max-length: 150
+  # Players use the HIGHEST priority tier they have the permission for.
+  #   cooldown: seconds between ads (saved on the player, survives relogs and restarts)
+  #   cost: money taken through Vault for each ad (0 = free). Only taken when the ad is sent.
+  # dkchat.ad.bypass skips both the cooldown and the cost.
+  tiers:
+    default:
+      priority: 0
+      permission: "dkchat.ad"
+      cooldown: 3600
+      cost: 1000
+    vip:
+      priority: 10
+      permission: "dkchat.ad.vip"
+      cooldown: 1800
+      cost: 500
+    mvp:
+      priority: 20
+      permission: "dkchat.ad.mvp"
+      cooldown: 900
+      cost: 0
+  # Lines sent to everyone. {name} (with hover), {player}, {message}, PlaceholderAPI for the sender.
+  # Start a line with {center} to center it.
+  format:
+    - ""
+    - "{center}<gradient:#FFB347:#FF6F61><bold>ADVERTISEMENT</bold></gradient>"
+    - "{center}<white>{message}"
+    - "{center}<gray>- {name}"
+    - ""
+  title:
+    enabled: false
+    title: "<gradient:#FFB347:#FF6F61><bold>Advertisement"
+    subtitle: "<gray>by {name}"
+  sound:
+    enabled: true
+    name: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.2
+  log-to-console: true
+
+# /clearchat (your own chat) and /clearchat all (staff)
+clear-chat:
+  # How many empty lines are sent. 100 fills the chat history on most clients.
+  lines: 100

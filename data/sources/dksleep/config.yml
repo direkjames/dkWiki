@@ -1,0 +1,114 @@
+# ------------------------------------------------------------
+#  dkSleep - night skipping for the dk suite
+#  Author: direk james
+# ------------------------------------------------------------
+# Only Overworld-type worlds are handled (Nether/End have no night).
+# dkSleep sets the vanilla "playersSleepingPercentage" gamerule to 101 in the worlds it
+# handles, so vanilla never skips the night on its own. The original value is saved in
+# data.yml and put back when dkSleep is disabled, removed, or a world is blacklisted.
+
+# Show the dkSleep banner in the console on startup.
+startup-banner: true
+
+# Worlds dkSleep ignores completely (vanilla sleep rules apply there).
+blacklisted-worlds:
+  - world_nether
+  - world_the_end
+
+# Default settings for every world. Any key below can be changed for one world in
+# "world-overrides" at the bottom of this file.
+settings:
+  # VOTE       = players vote to skip the night.
+  # ONE_PLAYER = one player sleeping skips the night.
+  mode: VOTE
+
+  vote:
+    # Getting into a bed starts a vote.
+    start-with-bed: true
+    # /sleep starts a vote (no bed needed).
+    start-with-command: true
+    # Quorum: this % of eligible players must vote before the result counts.
+    # 20 eligible players and 50 -> 10 votes needed.
+    quorum-percent: 50
+    # More than this % of the votes must be YES. 50 = simple majority (a tie fails).
+    yes-percent: 50
+    # How long a vote stays open (shown on the boss bar). 5 - 300.
+    duration-seconds: 30
+    # End the vote as soon as the quorum is reached and one side has won,
+    # or as soon as every eligible player has voted.
+    end-early: true
+    # The player who starts the vote automatically votes YES.
+    starter-votes-yes: true
+    # Getting into a bed while a vote is running counts as a YES vote.
+    bed-votes-yes: true
+    # Players can switch from YES to NO (or back) while the vote runs.
+    allow-vote-change: true
+    # Seconds a player must wait before changing their vote again (stops chat spam).
+    vote-change-cooldown-seconds: 3
+    # After a vote fails, no new vote can start in that world for this many seconds.
+    failed-cooldown-seconds: 60
+    # If nobody is able to vote (everyone is AFK, creative, etc.), skip the night right away.
+    skip-when-no-voters: true
+
+  # Players excluded from votes. They can't vote and don't count toward the quorum.
+  # Players with the dksleep.bypass permission are always excluded.
+  exclude:
+    afk: true          # needs dkAFK
+    spectator: true
+    creative: true
+    ops: true
+    vanished: true     # vanish plugins that use the standard "vanished" metadata
+
+  one-player:
+    # Seconds a player must stay in bed before the night is skipped (vanilla is 5).
+    delay-seconds: 5
+
+  skip:
+    # Fast-forward the night over a few seconds instead of jumping. Only the clock moves,
+    # no extra game ticks are simulated, so it costs the server nothing.
+    smooth: true
+    smooth-seconds: 3
+    # Stop rain and thunder when the night is skipped.
+    clear-weather: true
+    # Reset the phantom timer (time since rest) when the night is skipped.
+    reset-phantom-timer: true
+    # SERVER = every online player, WORLD = only players in that world.
+    phantom-reset-scope: SERVER
+
+  well-rested:
+    enabled: true
+    # Regeneration given when the night is skipped.
+    seconds: 5
+    # 0 = Regeneration I, 1 = Regeneration II
+    amplifier: 0
+    # YES_VOTERS        = players who voted YES (in ONE_PLAYER mode: the sleepers)
+    # EVERYONE_IN_WORLD = every player in that world
+    who: YES_VOTERS
+
+  boss-bar:
+    enabled: true
+    # PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+    color: BLUE
+    # PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20
+    overlay: PROGRESS
+
+  # "<sound key> <volume> <pitch>". Leave empty ("") for no sound.
+  sounds:
+    vote-start: "minecraft:block.note_block.chime 1.0 1.0"
+    vote-cast: "minecraft:block.note_block.hat 0.6 1.4"
+    vote-passed: "minecraft:entity.player.levelup 0.6 1.2"
+    vote-failed: "minecraft:block.note_block.bass 1.0 0.7"
+    morning: "minecraft:entity.experience_orb.pickup 0.8 0.8"
+
+# Per-world changes. Use the world's folder name and any key from "settings".
+# Example:
+# world-overrides:
+#   survival_world:
+#     mode: ONE_PLAYER
+#   events_world:
+#     vote:
+#       quorum-percent: 75
+#       duration-seconds: 20
+#     well-rested:
+#       enabled: false
+world-overrides: {}

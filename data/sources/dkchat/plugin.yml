@@ -1,0 +1,105 @@
+name: dkChat
+version: '${project.version}'
+main: com.direkjames.dkchat.DkChat
+api-version: '26.1'
+author: direk james
+description: ${project.description}
+softdepend:
+  - PlaceholderAPI
+  - Essentials
+  - LiteBans
+  - Vault
+  - DiscordSRV
+
+# Commands are registered in code through Paper's command API (see DkChat#onEnable).
+
+permissions:
+  dkchat.admin:
+    description: Use admin commands like /dchat reload.
+    default: op
+
+  # Private messages
+  dkchat.msg:
+    description: Use /msg, /m, /tell, /whisper, /w, /r and /reply.
+    default: true
+  dkchat.msg.seevanished:
+    description: Message and tab-complete vanished players.
+    default: op
+
+  # Spy
+  dkchat.spy:
+    description: See other players' private messages. On automatically, /spy toggles it.
+    default: op
+  dkchat.spy.exempt:
+    description: Private messages to or from this player are hidden from spies. Not given to OPs automatically.
+    default: false
+
+  # Ignore
+  dkchat.ignore:
+    description: Use /ignore.
+    default: true
+  dkchat.ignore.exempt:
+    description: Can't be ignored (for staff).
+    default: op
+
+  # [item] / [inv] / [echest]
+  dkchat.showcase.item:
+    description: Show the held item in chat with [i] / [item].
+    default: true
+  dkchat.showcase.inventory:
+    description: Show your inventory in chat with [inv] / [inventory].
+    default: true
+  dkchat.showcase.enderchest:
+    description: Show your ender chest in chat with [echest] / [ec] / [enderchest].
+    default: true
+  dkchat.showcase.view:
+    description: Click [inv] / [echest] in chat to open the preview.
+    default: true
+  dkchat.showcase.bypasscooldown:
+    description: No cooldown on [item], [inv] and [echest].
+    default: op
+
+  # /ad
+  dkchat.ad:
+    description: Use /ad with the default tier. Give dkchat.ad.vip / dkchat.ad.mvp for better tiers.
+    default: op
+  dkchat.ad.bypass:
+    description: No cooldown and no cost for /ad.
+    default: op
+
+  # /clearchat
+  dkchat.clearchat:
+    description: Clear your own chat.
+    default: true
+  dkchat.clearchat.all:
+    description: Clear the chat for everyone.
+    default: op
+  dkchat.clearchat.exempt:
+    description: Your chat isn't cleared by /clearchat all.
+    default: op
+
+  # What players are allowed to use inside their own chat messages.
+  dkchat.color.legacy:
+    description: Use & color codes (&a, &c...) and named MiniMessage colors (<red>) in chat.
+    default: op
+  dkchat.color.format:
+    description: Use bold, italic, underline and strikethrough (&l &o &n &m / <bold> ...) in chat.
+    default: op
+  dkchat.color.magic:
+    description: Use obfuscated/magic text (&k / <obfuscated>) in chat.
+    default: op
+  dkchat.color.hex:
+    description: Use HEX colors (&#FF00AA / <#FF00AA>) in chat.
+    default: op
+  dkchat.color.gradient:
+    description: Use <gradient> and <rainbow> in chat.
+    default: op
+  dkchat.color.*:
+    description: All chat color permissions.
+    default: op
+    children:
+      dkchat.color.legacy: true
+      dkchat.color.format: true
+      dkchat.color.magic: true
+      dkchat.color.hex: true
+      dkchat.color.gradient: true

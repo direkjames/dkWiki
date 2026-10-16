@@ -21,6 +21,70 @@
       "plugin.yml": "src/main/resources/plugin.yml",
       "config.yml": "src/main/resources/config.yml"
     },
-    "commit": "6ed20e5"
+    "snapshot": "2026-10-16"
+  },
+  "dkafk": {
+    "repo": "direkjames/dkAFK",
+    "files": {
+      "plugin.yml": "src/main/resources/plugin.yml",
+      "config.yml": "src/main/resources/config.yml"
+    },
+    "snapshot": "2026-10-16"
+  },
+  "dksleep": {
+    "repo": "direkjames/dkSleep",
+    "files": {
+      "plugin.yml": "src/main/resources/plugin.yml",
+      "config.yml": "src/main/resources/config.yml"
+    },
+    "snapshot": "2026-10-16"
+  },
+  "dkcodes": {
+    "repo": "direkjames/dkCodes",
+    "files": {
+      "plugin.yml": "src/main/resources/plugin.yml",
+      "config.yml": "src/main/resources/config.yml"
+    },
+    "snapshot": "2026-10-16"
+  },
+  "dkcommands": {
+    "repo": "direkjames/dkCommands",
+    "files": {
+      "plugin.yml": "src/main/resources/plugin.yml",
+      "config.yml": "src/main/resources/config.yml"
+    },
+    "snapshot": "2026-10-16"
+  },
+  "dkcrates": {
+    "repo": "direkjames/dkCrates",
+    "files": {
+      "plugin.yml": "src/main/resources/plugin.yml",
+      "config.yml": "src/main/resources/config.yml"
+    },
+    "snapshot": "2026-10-16"
+  },
+  "dkchat": {
+    "repo": "direkjames/dkChat",
+    "files": {
+      "plugin.yml": "src/main/resources/plugin.yml",
+      "config.yml": "src/main/resources/config.yml"
+    },
+    "snapshot": "2026-10-16"
+  },
+  "dkfly": {
+    "repo": "direkjames/dkFly",
+    "files": {
+      "plugin.yml": "src/main/resources/plugin.yml",
+      "config.yml": "src/main/resources/config.yml"
+    },
+    "snapshot": "2026-10-16"
+  },
+  "dkstock": {
+    "repo": "direkjames/dkStock",
+    "files": {
+      "plugin.yml": "plugin/src/main/resources/plugin.yml",
+      "config.yml": "plugin/src/main/resources/config.yml"
+    },
+    "snapshot": "2026-10-16"
   }
 }

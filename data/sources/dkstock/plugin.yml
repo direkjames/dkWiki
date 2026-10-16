@@ -1,0 +1,112 @@
+name: dkStock
+version: '${version}'
+main: com.direk.dkstock.DkStock
+api-version: '26.1'
+author: direk james
+description: The dk suite's ore stock market - live prices, categories, search, daily hot item, price alerts and charts.
+depend: [dkCore]
+# Loaded after these, so the economy and the AFK provider are ready when the market opens.
+softdepend: [Vault, Essentials, dkAFK, PlaceholderAPI]
+
+commands:
+  stock:
+    description: Open the dkStock market, check prices, sell and more.
+    usage: /<command> [help|open|search|price|limits|chart|sellhand|sellall|alert|hot|top|stats|history|...]
+    aliases: [dkstock]
+
+permissions:
+  dkstock.search:
+    description: Search the market by item name
+    default: true
+  dkstock.alert:
+    description: Set price alerts with /stock alert
+    default: true
+  dkstock.afk.bypass:
+    description: Trade while AFK (everyone else is blocked from trading while AFK)
+    default: false
+  dkstock.admin.freeze:
+    description: Freeze and unfreeze items (/stock freeze, /stock unfreeze)
+    default: op
+  dkstock.admin.hot:
+    description: Change or reroll the daily hot item (/stock hot set, /stock hot reroll)
+    default: op
+  dkstock.use:
+    description: Open the market and check prices
+    default: true
+  dkstock.buy:
+    description: Buy in the GUI
+    default: true
+  dkstock.sell.gui:
+    description: Sell in the GUI
+    default: true
+  dkstock.sell.hand:
+    description: Use /stock sellhand
+    default: true
+  dkstock.sell.all:
+    description: Use /stock sellall
+    default: true
+  dkstock.sell.*:
+    description: All selling permissions
+    default: false
+    children:
+      dkstock.sell.gui: true
+      dkstock.sell.hand: true
+      dkstock.sell.all: true
+  dkstock.top:
+    description: Use /stock top (the leaderboards)
+    default: true
+  dkstock.top.net:
+    description: See the net earners leaderboard
+    default: op
+  dkstock.chart:
+    description: Use /stock chart and the price history window
+    default: true
+  dkstock.limit.bypass:
+    description: Not affected by daily buy and sell limits
+    default: op
+  dkstock.admin.reload:
+    default: op
+  dkstock.admin.setprice:
+    default: op
+  dkstock.admin.setstock:
+    default: op
+  dkstock.admin.reset:
+    default: op
+  dkstock.admin.crash:
+    default: op
+  dkstock.admin.surge:
+    default: op
+  dkstock.admin.stats:
+    default: op
+  dkstock.admin.history:
+    default: op
+  dkstock.admin.audit:
+    description: Check the setup for ways to make free money
+    default: op
+  dkstock.admin.economy:
+    description: See how much money the market created or removed
+    default: op
+  dkstock.admin.discord:
+    description: Test the Discord webhook
+    default: op
+  dkstock.admin.events:
+    description: See and run scheduled market events
+    default: op
+  dkstock.admin.*:
+    description: All admin permissions
+    default: op
+    children:
+      dkstock.admin.freeze: true
+      dkstock.admin.hot: true
+      dkstock.admin.reload: true
+      dkstock.admin.setprice: true
+      dkstock.admin.setstock: true
+      dkstock.admin.reset: true
+      dkstock.admin.crash: true
+      dkstock.admin.surge: true
+      dkstock.admin.stats: true
+      dkstock.admin.history: true
+      dkstock.admin.audit: true
+      dkstock.admin.economy: true
+      dkstock.admin.discord: true
+      dkstock.admin.events: true

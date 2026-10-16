@@ -1,0 +1,68 @@
+# ============================================
+#  dkCodes - redeem codes for the dk suite
+#  Author: direk james
+# ============================================
+# Codes live in codes.yml. Messages live in messages.yml.
+# Usage data and the audit log are stored in dkCore's shared database (dkcodes_ tables).
+
+# Show the dkCodes banner in the console on startup.
+startup-banner: true
+
+# Time zone used for code start/expiry dates. Blank = the server's time zone.
+# Example: Asia/Manila
+timezone: ''
+
+# How dates are shown in messages and the GUI (Java DateTimeFormatter pattern).
+date-format: 'MMM d, yyyy h:mm a'
+
+# How durations are shown (cooldowns, lockouts, playtime, time left).
+time-format:
+  style: compact
+  separator: ' '
+  hide-zero-units: true
+  zero: '0s'
+  labels:
+    day: 'd'
+    hour: 'h'
+    minute: 'm'
+    second: 's'
+
+# Protection against players guessing codes.
+anti-abuse:
+  # Minimum time between /redeem attempts (right or wrong).
+  attempt-cooldown: 3s
+  # Wrong codes allowed inside the window before the player is locked out.
+  max-failed-attempts: 5
+  failed-window: 10m
+  # How long a locked-out player can't use /redeem.
+  lockout: 15m
+  # Tell online staff (dkcodes.alerts) when someone gets locked out.
+  alert-staff: true
+  # Secret used to hash player IPs (IPs are never stored in plain text).
+  # Filled in automatically. If several servers share one MySQL database, use the same value on all of them.
+  ip-salt: ''
+
+# Referral (creator) codes.
+referral:
+  # A player can only ever redeem ONE referral code.
+  one-per-player: true
+  # Block redeeming a referral code from the same IP as its owner (stops alt accounts).
+  block-same-ip: true
+  # Tell the owner when someone uses their code (if they are online).
+  notify-owner: true
+
+# Delay after joining before waiting rewards are delivered and the player is told about waiting items.
+join-delivery-delay: 3s
+
+# Discord webhook. Create one in Discord: Server Settings > Integrations > Webhooks.
+discord:
+  enabled: false
+  webhook-url: ''
+  username: 'dkCodes'
+  avatar-url: ''
+  # Which events are posted.
+  events:
+    redeem: true
+    referral: true
+    lockout: true
+    admin: true

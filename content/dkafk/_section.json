@@ -1,0 +1,1 @@
+{ "title": "dkAFK", "kind": "plugin", "order": 6, "icon": "afk", "tagline": "AFK detection for the whole suite.", "version": "2.1.0", "status": "ready" }

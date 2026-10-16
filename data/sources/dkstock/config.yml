@@ -1,0 +1,106 @@
+# dkStock - messages are in messages.yml, the window in gui.yml, the tabs in categories.yml.
+
+# Percent taken off the price when a player SELLS.
+# This must be high enough for the multiplier, or players can make free money by buying and selling in a loop.
+# Lowest safe tax for each multiplier: 0.005 -> 3, 0.01 -> 5, 0.02 -> 12, 0.03 -> 16, 0.05 -> 24.
+# Run /stock audit after changing it. Guide: docs/ECONOMY.md.
+tax-percent: 10.0
+
+# How much each trade moves the price (0.01 = about 1%). Keep it between 0.01 and 0.02 unless you know why.
+multiplier: 0.01
+
+# Prices never fall below this. Keep it at about 5 to 10 percent of your cheapest item.
+price-floor: 0.25
+
+gui:
+  # How many items Shift + left-click buys in the menu (2 to 64).
+  bulk-amount: 16
+  # How often (in ticks, 20 = one second) open market windows check for changes. Only icons that changed
+  # are redrawn, and nothing happens when nothing changed. 0 = windows only update when their player clicks.
+  refresh-ticks: 20
+
+sell-all:
+  # Players must type /stock sellall confirm after /stock sellall.
+  confirm: true
+  # How long the confirmation stays valid (minimum 5).
+  confirm-seconds: 15
+  # Time before the same player can sell everything again. 0 turns the cooldown off.
+  cooldown-seconds: 30
+
+# The market heals itself over time. Every interval, prices drift back toward their base price
+# and stock moves back toward the starting stock. A crash, a surge or a heavy sell-off fades away.
+recovery:
+  # Minutes between recovery steps (minimum 1).
+  interval-minutes: 10
+  # Also apply the time the server was offline, up to this many hours. 0 turns catch-up off.
+  catch-up-hours: 24
+
+drift:
+  enabled: true
+  # Each step, the price closes this percent of its gap to the base price (0 to 100).
+  percent: 2.0
+
+regen:
+  enabled: true
+  # Each step, stock moves this percent of max-stock toward start-stock, at least 1 item (0 to 100).
+  # Low stock refills, and stock piled up by sellers slowly drains.
+  percent: 2.0
+
+# Price history: charts (press Q on an item in the market, or /stock chart <item>) and the 24h trend line.
+price-history:
+  enabled: true
+  # Minutes between samples. Only items whose price or stock changed are saved.
+  interval-minutes: 10
+  # Samples older than this are deleted. 0 keeps everything.
+  keep-days: 14
+
+# Leaderboards (/stock top and the PlaceholderAPI placeholders).
+leaderboards:
+  # How many lines /stock top shows (1 to 50).
+  size: 10
+  # Placeholders read a saved copy of each board and refresh it this often, in seconds (minimum 5).
+  cache-seconds: 30
+
+# Daily limits per player and item. 0 means no limit. Items can set their own daily-buy / daily-sell in items.yml.
+# Players with the permission dkstock.limit.bypass (operators by default) are never limited.
+limits:
+  # The most one player can buy of one item per day.
+  daily-buy: 0
+  # The most one player can sell of one item per day.
+  daily-sell: 0
+  # When a new day starts for the limits, as HH:mm (24-hour time).
+  reset-time: "00:00"
+  # Time zone for reset-time: "server" or a name such as Asia/Manila or UTC.
+  timezone: "Asia/Manila"
+
+admin:
+  # Announce /stock crash and /stock surge to the whole server.
+  broadcast: true
+
+history:
+  # Trade history older than this is deleted at startup. 0 keeps everything.
+  keep-days: 30
+
+afk:
+  # AFK players (reported by dkAFK through dkCore) can't buy or sell. Staff with dkstock.afk.bypass can.
+  block-trading: true
+
+# One item each day pays more to sell and costs more to buy (both move together, so there is no
+# buy-then-sell loop). It changes at reset-time in the time zone below.
+hot-item:
+  enabled: true
+  # How much higher both the buy and the sell price are for the hot item (0 to 100).
+  bonus-percent: 15
+  # How many hot items per day.
+  count: 1
+  # Announce the new hot item to the whole server.
+  broadcast: true
+  timezone: "Asia/Manila"
+  reset-time: "00:00"
+  # Items that can never be the hot item.
+  exclude: []
+
+# Players can ask to be told when an item's price reaches a number: /stock alert add <item> <above|below> <price>
+alerts:
+  enabled: true
+  max-per-player: 10

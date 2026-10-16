@@ -1,1 +1,1 @@
-{ "title": "dkLedger", "kind": "plugin", "order": 4, "icon": "ledger", "tagline": "Watches the server's economy for staff.", "version": "0.5.0", "status": "ready" }
+{ "title": "dkLedger", "kind": "plugin", "order": 4, "icon": "ledger", "tagline": "Watches the server's economy for staff.", "version": "0.6.0", "status": "ready" }

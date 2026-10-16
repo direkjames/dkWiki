@@ -18,6 +18,11 @@ Terms are in alphabetical order.
 - **Compact amounts.** Bank commands accept `1.5k`, `2m`, `1b`, `all` and `half` instead of full numbers.
 - **dkCore.** The shared foundation of every dk plugin. See [dkCore](../dkcore/index.md).
 - **Freeze.** A dkLedger staff action that stops a player sending money to other players. They can still earn, buy and play.
+- **Alias.** A short command that runs a longer one, made by dkCommands. See [Aliases and rules](../dkcommands/rules.md).
+- **Cooldown.** The wait before you can use a command again. dkCommands sets cooldowns on commands, and dkStock puts one on `sellall`.
+- **Crate.** A chest you open with a key to win a reward. See [dkCrates](../dkcrates/index.md).
+- **Drift.** In dkStock, prices slowly move back toward their base price after trades, and stock refills. See [How prices work](../dkstock/prices.md).
+- **Fly time.** How long you can fly with dkFly. It counts down only while you are in the air. See [dkFly](../dkfly/index.md).
 
 ## I to M
 
@@ -26,6 +31,9 @@ Terms are in alphabetical order.
 - **Locked bank.** A bank that can't take deposits, transfers, upgrades or earn interest because of the alt-account limit.
 - **Lowest-balance rule.** dkBank pays interest on the lowest balance you held since the last payout. Money deposited just before a payout starts earning at the next one.
 - **Money supply.** All the money in the economy: every wallet plus every bank. dkLedger counts it every hour and watches how fast it grows.
+- **Hot item.** The one item dkStock pays more for, and charges more for, each day. See [How prices work](../dkstock/prices.md).
+- **Key.** What you spend to open a crate. dkCrates keys are virtual: they are kept in your account.
+- **Mystery code.** A dkCodes code that picks a reward at random from several pools. See [Making codes](../dkcodes/creating-codes.md).
 
 ## O to W
 
@@ -37,3 +45,9 @@ Terms are in alphabetical order.
 - **Source.** What caused a money change: a plugin name, `staff:<name>`, or `console`. dkLedger groups money by source.
 - **Vault.** A plugin that lets other plugins use one shared economy. Our wallet balance comes through it.
 - **Wallet.** The money you carry, shown by `/bal`. It is separate from your bank.
+- **Quorum.** In dkSleep, the share of eligible players who must vote before a vote counts. See [How votes work](../dksleep/votes.md).
+- **Referral code.** A dkCodes code that belongs to a player. Whoever uses it gets a reward, and so does the owner.
+- **Stock.** In dkStock, how many of an item the market holds right now. Buying lowers it and selling raises it.
+- **Tax (selling tax).** The percent dkStock takes off a sale. It is why buying and selling the same item in a loop never makes money.
+- **Warmup.** A short wait before a command runs, cancelled if you move or take damage. Set by dkCommands.
+- **Webhook.** A Discord address a plugin can post messages to. dkStock, dkLedger and dkCodes can use one.

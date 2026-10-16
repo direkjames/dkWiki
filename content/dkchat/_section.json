@@ -1,0 +1,1 @@
+{ "title": "dkChat", "kind": "plugin", "order": 11, "icon": "chat", "tagline": "Chat formats, private messages and showcase tags.", "version": "1.0.0", "status": "ready" }

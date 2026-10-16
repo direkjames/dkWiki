@@ -28,7 +28,7 @@ A source says which plugin moved money. A **reason** says why, for example "ques
 
 ## What else it tracks
 
-- **Item trades:** what players buy and sell in shops.
+- **Item trades:** what players buy and sell in shops, such as dkStock and EconomyShopGUI, and trades that plugins report through the API.
 - **Playtime:** each player's first join, plus minutes active and AFK per day.
 - **Progress:** OneBlock phases, dkBank tiers and anything dk plugins report.
 

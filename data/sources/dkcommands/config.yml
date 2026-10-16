@@ -1,0 +1,182 @@
+# ============================================
+#  dkCommands - command tools for the dk suite
+#  Author: direk james
+# ============================================
+# Aliases live in aliases.yml. Cooldowns, warmups, costs, daily limits and
+# confirmations live in rules.yml. Messages live in messages.yml.
+# Cooldowns, daily uses and the command log are stored in dkCore's shared
+# database (dkcommands_ tables).
+#
+# After editing any of these files, use /dkcmd reload. No restart needed.
+#
+# How to write a command in any list below:
+#   heal                  -> that command, however it's typed (/heal, /eheal, /essentials:heal)
+#   warp crates           -> only /warp crates (extra words = arguments; * = any one word)
+#   lp*                   -> every command starting with "lp" (* = anything, ? = one character)
+#   essentials:*          -> every /essentials:... label
+#   plugin:Multiverse-Core -> every command of that plugin (name as in /plugins)
+
+# Show the dkCommands banner in the console on startup.
+startup-banner: true
+
+# Time zone for daily limits (they reset at midnight) and log dates. Blank = the server's.
+# Example: Asia/Manila
+timezone: ''
+
+# How dates are shown in /dkcmd log (Java DateTimeFormatter pattern).
+date-format: 'MMM d HH:mm:ss'
+
+# How durations are shown (cooldowns, warmups, time until reset).
+time-format:
+  style: compact
+  separator: ' '
+  hide-zero-units: true
+  zero: '0s'
+  labels:
+    day: 'd'
+    hour: 'h'
+    minute: 'm'
+    second: 's'
+
+# Replace the server's "Unknown or incomplete command" with "unknown-command" from messages.yml.
+# Hidden and blocked commands use the same message, so players can't tell them apart.
+custom-unknown-command: true
+
+# ------------------------------------------------------------------ command hider
+# Hides commands from the list players see when they type / and from tab completion.
+# Players only ever see commands they have permission for; the hider removes even more.
+# Staff with dkcommands.bypass.hider (ops by default) see everything.
+hider:
+  enabled: true
+  # whitelist: players ONLY see the commands listed in their groups (recommended).
+  # blacklist: players see everything EXCEPT the commands listed in their groups.
+  mode: whitelist
+  # Hide every namespaced label (/essentials:heal, /minecraft:tp, /bukkit:plugins...).
+  hide-namespaced: true
+  # Always show dkCommands aliases (to players who have their permission).
+  show-aliases: true
+  # true = typing a hidden command acts like it doesn't exist (unknown-command message).
+  # false = hidden commands still work if typed (good for commands used by clickable chat
+  #         buttons, like /tpaccept, that you don't want in the list).
+  block-execution: false
+  # Groups stack: everyone has "default"; a player with dkcommands.group.vip also gets "vip".
+  # Give the group permission with LuckPerms. Add as many groups as you like.
+  groups:
+    default:
+      commands:
+        - spawn
+        - warp
+        - warps
+        - home
+        - homes
+        - sethome
+        - delhome
+        - back
+        - tpa
+        - tpahere
+        - tpaccept
+        - tpdeny
+        - tpacancel
+        - msg
+        - tell
+        - w
+        - r
+        - reply
+        - mail
+        - balance
+        - bal
+        - baltop
+        - pay
+        - kit
+        - kits
+        - list
+        - rules
+        - afk
+        - bank
+        - redeem
+    vip:
+      # permission: dkcommands.group.vip   (this is the default, change it if you like)
+      commands:
+        - fly
+        - hat
+        - workbench
+        - craft
+        - enderchest
+        - ec
+    staff:
+      commands:
+        - '*'
+
+# ------------------------------------------------------------------ command blocker
+# Blocked commands can't be used and are hidden from the / list. They answer with the
+# unknown-command message, unless a rule has its own message.
+# Staff with dkcommands.bypass.blocker (ops by default) are not blocked.
+blocker:
+  enabled: true
+  rules:
+    # Stops players from seeing your plugin list, server version and full command list.
+    # /plugins also covers /pl and /bukkit:pl, /version covers /ver, /about and /icanhasbukkit.
+    # Remove "help" if you use a custom help plugin.
+    server-info:
+      commands:
+        - plugins
+        - version
+        - help
+        - 'bukkit:*'
+        - 'minecraft:help'
+      # '' = the unknown-command message
+      message: ''
+    # Example: block commands in some worlds only. Remove "enabled: false" to use it.
+    no-escape-in-arena:
+      enabled: false
+      commands:
+        - spawn
+        - home
+        - warp
+      worlds:
+        - arena
+      message: '<prefix><red>You can''t use <white><command></white> in the arena.'
+      # Commands blocked in only some worlds stay visible in the / list there if this is false.
+      hide-from-tab: true
+
+# ------------------------------------------------------------------ cooldowns, warmups, confirms
+cooldowns:
+  # Cooldowns at least this long are saved to the database, so they survive restarts.
+  # Shorter ones are kept in memory (they still survive relogging).
+  save-after: 60s
+
+confirm:
+  # How long players have to type /dkconfirm (or click [CONFIRM]).
+  timeout: 10s
+
+warmup:
+  # Cancel the warmup if the player moves to another block / teleports.
+  cancel-on-move: true
+  # Cancel the warmup if the player takes damage.
+  cancel-on-damage: true
+  # Show the countdown on the action bar.
+  action-bar: true
+
+# ------------------------------------------------------------------ command log
+# Every command players run is saved for /dkcmd log. Nothing is shown in chat.
+# Players with dkcommands.log.exempt are not logged.
+logging:
+  enabled: true
+  # Entries older than this are deleted automatically.
+  keep-days: 14
+  # Lines per page in /dkcmd log.
+  page-size: 10
+  # Also log commands that don't exist (typos, players probing for plugins).
+  log-unknown-commands: true
+  # Only the command name is saved for these, never what was typed after it (passwords).
+  hide-arguments:
+    - login
+    - l
+    - log
+    - register
+    - reg
+    - changepassword
+    - changepass
+    - unregister
+    - 2fa
+    - totp

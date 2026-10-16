@@ -1,0 +1,28 @@
+name: dkSleep
+version: '${version}'
+main: com.direk.dksleep.DkSleep
+api-version: '26.1'
+author: direk james
+description: Vote or one-player night skipping for the dk suite.
+depend: [dkCore]
+
+commands:
+  sleep:
+    description: Start a vote to skip the night, or vote yes/no.
+    usage: /sleep [yes|no]
+    permission: dksleep.use
+  dksleep:
+    description: dkSleep admin commands.
+    usage: /dksleep <reload|forceskip|cancel|status> [world]
+    permission: dksleep.admin
+
+permissions:
+  dksleep.use:
+    description: Start night skip votes and vote on them.
+    default: true
+  dksleep.bypass:
+    description: Never counted in night skip votes (cannot vote either).
+    default: false
+  dksleep.admin:
+    description: Use /dksleep reload, forceskip, cancel and status.
+    default: op

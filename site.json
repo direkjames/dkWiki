@@ -5,38 +5,7 @@
   "base": "/dkWiki/",
   "repo": "direkjames/dkWiki",
   "branch": "main",
-  "upcoming": [
-    {
-      "id": "dkafk",
-      "title": "dkAFK",
-      "icon": "afk",
-      "tagline": "AFK detection for the whole suite."
-    },
-    {
-      "id": "dksleep",
-      "title": "dkSleep",
-      "icon": "sleep",
-      "tagline": "Skip the night with a vote."
-    },
-    {
-      "id": "dkcodes",
-      "title": "dkCodes",
-      "icon": "codes",
-      "tagline": "Redeem codes for rewards."
-    },
-    {
-      "id": "dkcommands",
-      "title": "dkCommands",
-      "icon": "commands",
-      "tagline": "Command aliases, cooldowns and hidden commands."
-    },
-    {
-      "id": "dkcrates",
-      "title": "dkCrates",
-      "icon": "crates",
-      "tagline": "Crates opened with virtual keys."
-    }
-  ],
+  "upcoming": [],
   "quick": [
     {
       "title": "How do I earn bank interest?",
@@ -57,6 +26,11 @@
       "title": "Which bank commands can I use?",
       "desc": "Every command, with the permission it needs.",
       "page": "dkbank/commands.md"
+    },
+    {
+      "title": "How do I sell items to the market?",
+      "desc": "Left-click to buy, right-click to sell, and why prices move.",
+      "page": "dkstock/using-the-market.md"
     },
     {
       "title": "How do staff watch the economy?",

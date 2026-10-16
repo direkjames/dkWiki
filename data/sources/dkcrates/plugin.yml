@@ -1,0 +1,23 @@
+name: dkCrates
+version: '${version}'
+main: com.direk.dkcrates.DkCrates
+api-version: '26.1'
+author: direk james
+description: Crates with virtual keys for the dk suite.
+depend: [dkCore]
+softdepend: [PlaceholderAPI, Vault, Essentials, Nexo]
+
+commands:
+  crates:
+    description: Open the crates menu, or dkCrates admin commands.
+    usage: /crates [open|preview|claim|key|keyall|forceopen|item|reload]
+    # /crate is what our vote plugin and PinataParty already use (crate key give ...)
+    aliases: [crate]
+
+permissions:
+  dkcrates.use:
+    description: Open the crates menu, open and preview crates, claim rewards.
+    default: true
+  dkcrates.admin:
+    description: Give and take keys, key-alls, item capture, force open and reload.
+    default: op

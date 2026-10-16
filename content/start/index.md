@@ -15,6 +15,14 @@ Press `/` or **Ctrl K** anywhere to search. Search finds commands, settings and 
 - [How the suite fits together](how-the-suite-fits.md) :: One picture of every plugin and how they connect.
 - [Glossary](glossary.md) :: What words like tier, cap, sink and money supply mean.
 - [dkBank](../dkbank/index.md) :: Deposit money, earn interest and buy bank tiers.
+- [dkStock](../dkstock/index.md) :: Buy and sell items in a market where prices move.
+- [dkCrates](../dkcrates/index.md) :: Open crates with keys.
+- [dkSleep](../dksleep/index.md) :: Skip the night with a vote.
+- [dkCodes](../dkcodes/index.md) :: Redeem codes for rewards.
+- [dkFly](../dkfly/index.md) :: Timed flight you can buy and share.
+- [dkChat](../dkchat/index.md) :: Chat formats, private messages and showcase tags.
+- [dkAFK](../dkafk/index.md) :: How the server decides you are AFK.
+- [dkCommands](../dkcommands/index.md) :: Aliases, cooldowns and hidden commands.
 - [dkLedger](../dkledger/index.md) :: How staff watch the server's economy.
 - [dkCore](../dkcore/index.md) :: The foundation the other plugins are built on.
 :::
