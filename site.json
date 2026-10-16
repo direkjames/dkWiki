@@ -2,8 +2,8 @@
   "title": "dk suite wiki",
   "tagline": "Commands, settings and how-it-works for every plugin on our Oneblock server.",
   "author": "direk james",
-  "base": "/dkwiki/",
-  "repo": "direkjames/dkwiki",
+  "base": "/dkWiki/",
+  "repo": "direkjames/dkWiki",
   "branch": "main",
   "upcoming": [
     {
