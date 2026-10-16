@@ -1,0 +1,34 @@
+name: dkLedger
+version: '${version}'
+main: com.direk.dkledger.DkLedger
+api-version: '26.1'
+author: direk james
+description: The dk suite's financial analyst - live ledger, money supply, alerts, admin actions, config audit and a what-if simulator.
+depend: [dkCore]
+# Loaded after these so the ledger can hook them, and the config audit can read their files and commands.
+
+commands:
+  ledger:
+    description: dkLedger - the server's economy.
+    usage: /ledger help
+    aliases: [dkledger]
+    permission: dkledger.admin
+
+permissions:
+  dkledger.admin:
+    description: Use /ledger and its menu (everything except undoing entries).
+    default: op
+    children:
+      dkledger.alerts: true
+      dkledger.summary: true
+  dkledger.owner:
+    description: Undo ledger entries (/ledger reverse). Not given to ops on purpose.
+    default: false
+    children:
+      dkledger.admin: true
+  dkledger.alerts:
+    description: Get economy alerts in chat when they happen.
+    default: op
+  dkledger.summary:
+    description: Get a short "while you were away" economy summary when joining.
+    default: op

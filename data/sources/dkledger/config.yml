@@ -1,0 +1,272 @@
+# ============================================
+#  dkLedger - the dk suite's financial analyst
+#  Author: direk james
+# ============================================
+# /ledger reload applies changes to this file. Every number has a safe default:
+# delete a line to go back to it (dkCore adds it back).
+
+# Time zone for days, reports and the weekly report. Empty = the server's.
+timezone: "Asia/Manila"
+
+# Show the dkLedger banner in the console on startup.
+startup-banner: true
+
+# ------------------------------------------------------------------ the ledger
+ledger:
+  # Record every money change (wallet and bank), with the plugin that made it.
+  enabled: true
+  # How often recorded changes are saved to the database.
+  flush-seconds: 5
+  # Single changes and item trades are kept this long (to look into a player or undo an exploit);
+  # daily totals, money supply snapshots, daily prices, playtime and progress are kept forever.
+  keep-entries-days: 90
+  # How often everyone's money is counted and the hourly checks run.
+  snapshot-minutes: 60
+  # Wallets read per tick while counting (higher = faster count, more work per tick).
+  balances-per-tick: 20
+  # Sources that move money between players: not counted as earnings, used for the transfer checks.
+  # Names are plugin names as they appear in /ledger sources.
+  transfer-sources: ["Essentials /pay", "AxTrade", "AxAuctions", "ChestShop", "dkBank transfers"]
+  # Sources that move money between a player's own wallet and bank: only their fees count.
+  internal-sources: ["dkBank"]
+
+# ------------------------------------------------------------------ tracking
+# What's recorded besides money. All of it starts the moment a player joins, so later updates (player
+# profiles, new-player progression, inflation index, forecast) can use it from day one.
+tracking:
+  # Items bought and sold in shops: shop and EconomyShopGUI, plus plugins that report through the API.
+  items: true
+  # Each player's first join, and minutes played per day (active and AFK).
+  playtime: true
+  # AFK = EssentialsX's AFK status. Without it, a player idle this many minutes counts as AFK (0 = never).
+  afk-after-minutes: 5
+  # Progress that isn't money: AOneBlock phases, dkBank tiers, plus plugins that report through the API.
+  progress: true
+
+# ------------------------------------------------------------------ login summary
+# "While you were away": a few lines for staff (dkledger.summary) when they join, about what changed in the economy
+# since they last left. Only sent when something deserves a look: a new alert, a new money source, a freeze, or the
+# money supply moving at least min-change. Each staff member can use /ledger summary mute|off|on.
+login-summary:
+  enabled: true
+  # Wait this long after joining, so it isn't lost among other join messages.
+  delay-seconds: 5
+  # A money supply change this big is worth mentioning on its own (0.05 = 5%).
+  min-change: 0.05
+  # Look back at most this many days (the weekly report covers longer).
+  max-days: 7
+
+# ------------------------------------------------------------------ web dashboard
+# A read-only website with the economy: supply, sources, items, players, alerts. Sign in with /ledger web
+# (a one-time link, no passwords). Nothing on it can change the economy.
+web:
+  enabled: false
+  # The port, and the address to listen on. With Pterodactyl, give this server an extra allocation and use its port;
+  # keep bind at 0.0.0.0.
+  port: 25580
+  bind: "0.0.0.0"
+  # The address people open, used in sign-in links. Include the port unless a proxy (Cloudflare Tunnel, Caddy) serves it.
+  # Examples: "http://ledger.example.com:25580" or "https://ledger.example.com"
+  public-url: ""
+  # How long a sign-in lasts, in hours.
+  session-hours: 12
+  # true only behind a reverse proxy (nginx, Caddy) or Cloudflare: the visitor's address is read from the proxy's
+  # headers, and with an https public-url, visits straight to the port are sent to the https address.
+  trust-proxy: false
+
+# ------------------------------------------------------------------ alerts
+# Safe defaults. Each alert is a warning or critical; the same alert isn't repeated within repeat-hours
+# unless it gets worse. Admins with dkledger.alerts get them in chat.
+alerts:
+  repeat-hours: 6
+  notify-in-game: true
+  # Sound for admins on a new alert (a Minecraft sound name). '' = no sound.
+  sound: "block.note_block.bell"
+  # The first days after installing, supply grows fast because it starts near zero: B1 and B2 stay quiet.
+  warmup-days: 14
+  # B1: money supply growth per day (7-day average). 0.05 = 5%.
+  supply-growth: {warning: 0.05, critical: 0.10}
+  # B1: money per active player, growth over 7 days.
+  per-player-growth: {warning: 0.15, critical: 0.30}
+  # B2: one source's share of all new money in 7 days (only once at least min-new-money was created).
+  source-share: {warning: 0.40, critical: 0.60, min-new-money: 10000}
+  # B2: money removed by sinks, as a share of money added, over 7 days. Lower is worse.
+  sink-ratio: {warning: 0.30, critical: 0.15}
+  # B3: a player earning this many times the median today (if they earned at least min-earned, and at
+  # least min-earners players earned something).
+  player-vs-median: {warning: 8, critical: 15, min-earned: 5000, min-earners: 5}
+  # B3: a player's earnings in the last hour.
+  player-per-hour: {warning: 10000, critical: 25000}
+  # B4: buying and selling with the same plugin this many times within window-minutes.
+  buy-sell-loop: {warning: 20, critical: 50, window-minutes: 10}
+  # B5: a plugin moving money for the first time (after the first day).
+  new-source: true
+  # B6: a staff /eco or bank change this big (every staff change is in the ledger anyway).
+  staff-money: {warning: 10000}
+  # B7: share of all money held by the richest 10% (once there are min-accounts players).
+  top-share: {warning: 0.60, critical: 0.75, min-accounts: 10}
+  # B8: a shop price moving this much in this many days.
+  price-change: {warning: 0.30, critical: 0.60, days: 7}
+  # B9: money a player gets in one day from accounts on the same connection (likely alts).
+  alt-transfers: {warning: 5000, critical: 20000}
+  # B10: one transfer between players this big.
+  big-transfer: {warning: 25000, critical: 100000}
+
+# ------------------------------------------------------------------ freezing players
+# /ledger freeze stops a player sending money to other players. They can still earn, buy and play.
+freeze:
+  # Commands they can't use (the start of the command, without /).
+  blocked-commands: ["pay", "epay", "trade", "ah sell", "auction sell", "bank pay", "bank transfer"]
+  # Plugins whose Vault payments are refused for them.
+  blocked-sources: ["AxTrade", "AxAuctions", "ChestShop"]
+
+# ------------------------------------------------------------------ weekly report
+# An HTML page with charts (and a Markdown copy) in plugins/dkLedger/reports, every week.
+weekly-report:
+  enabled: true
+  # MONDAY to SUNDAY, and a time in 24-hour format (in the time zone above).
+  day: MONDAY
+  time: "09:00"
+  # Weekly reports to keep.
+  keep: 12
+
+# ------------------------------------------------------------------ the config audit (/ledger scan)
+scan:
+  # Scan once after the server starts; admins online get the summary if it finds critical problems.
+  on-startup: true
+  # Wait this long after startup, so every plugin has finished loading.
+  startup-delay-seconds: 30
+  # Old audit reports to keep.
+  keep-reports: 20
+
+# Where each plugin keeps its files, relative to the plugins folder.
+# Each can list several places; the first one that exists is used.
+plugins:
+  economyshopgui-shops: ["EconomyShopGUI-Premium/shops", "EconomyShopGUI/shops"]
+  virtual-spawner: ["VirtualSpawner", "Virtual Spawner"]
+  head-database: ["HeadDatabase/config.yml"]
+  dkbank: ["dkBank"]
+  afk-zone: ["AxAFKZone/config.yml", "AxAfkZone/config.yml"]
+  daily-rewards: ["NDailyRewards"]
+  playtime-rewards: ["RewardsLite/rewards"]
+  daily-quests: ["ODailyQuests"]
+  pinata-party: ["PinataParty/config.yml"]
+  oneblock: ["BentoBox/addons/AOneBlock"]
+  bentobox-addons: ["BentoBox/addons"]
+  player-warps: ["AxPlayerWarps/config.yml"]
+  auctions: ["AxAuctions/currencies.yml", "AxAuction/currencies.yml"]
+  crate-keys: ["ExcellentCrates/keys"]
+
+# How a typical player spends a day, for the daily income estimate (A7).
+profiles:
+  casual:
+    active-hours: 2
+    afk-hours: 0
+    votes: 4
+  grinder:
+    active-hours: 6
+    afk-hours: 8
+    votes: 4
+
+checks:
+  # Findings of one kind listed separately in chat and the report; the rest are summed up in one line.
+  max-findings-per-check: 25
+
+  # A2, A3: report a loop once it makes at least this much per item or craft.
+  loops:
+    min-profit: 0.05
+
+  # A4: crafting that multiplies value.
+  crafting:
+    # Report when the result is worth this many times its ingredients...
+    value-ratio: 2.0
+    # ...and one craft gains at least this much.
+    min-gain: 1.0
+    # Report items made from unsellable ingredients once one craft is worth this much.
+    sellable-only-after-crafting-min: 3.0
+
+  # A5: items players make forever with generators and farms, and the highest fair sell price.
+  # Selling above it is a warning; 5× above it is critical.
+  renewables:
+    COBBLESTONE: 0.25
+    STONE: 0.25
+    COBBLED_DEEPSLATE: 0.25
+    BASALT: 0.25
+    SMOOTH_BASALT: 0.3
+    POLISHED_BASALT: 0.3
+    OBSIDIAN: 8.0
+    CACTUS: 0.1
+    GREEN_DYE: 0.1
+    BAMBOO: 0.1
+    KELP: 0.1
+    DRIED_KELP: 0.1
+    SUGAR_CANE: 0.1
+    SUGAR: 0.1
+    PAPER: 0.1
+    MOSS_BLOCK: 0.3
+    VINE: 0.5
+    POINTED_DRIPSTONE: 0.3
+    SNOWBALL: 0.25
+    ICE: 1.0
+    PUMPKIN: 1.5
+    MELON_SLICE: 0.3
+    WHITE_WOOL: 1.5
+    STRING: 2.0
+    BONE_MEAL: 0.6
+
+  # A6: spawners.
+  spawners:
+    # Warn when a spawner pays for itself faster than this (hours with a player nearby).
+    min-payback-hours: 240
+    # Warn when a drop sells this many times higher outside Virtual Spawner.
+    drop-elsewhere-ratio: 1.5
+
+  # A7: rewards.
+  rewards:
+    # Warn when one reward is more than this share of a player's daily reward income (0.40 = 40%).
+    faucet-share-warn: 0.40
+    # One-time playtime milestones are spread over this many days.
+    milestone-days: 30
+    # AxAFKZone: "weighted" = one reward per roll, picked by chance; "independent" = every reward rolls on its own.
+    afk-zone-roll-mode: weighted
+
+  # A9: warn when a bank tier pays more than this per online hour at its cap.
+  bank:
+    online-per-hour-warn: 1000
+
+  # A10: OneBlock.
+  oneblock:
+    # Report fixed blocks (always the same block at the same count) worth at least this.
+    fixed-block-value: 50
+    # Report chest loot worth at least this per stack.
+    chest-item-value: 500
+    # Warn when a phase pays more than this per block broken, on average.
+    phase-average-warn: 3.0
+
+  # shop: players sell at the base price minus tax-percent (false = at the base price).
+
+  # A8: commands that are never reported as unknown, and "file:key" places that aren't checked.
+  commands:
+    ignore: []
+    ignore-paths:
+      - "HeadDatabase/config.yml:custom-command"
+
+  # The scan of all plugin folders (A7 money commands, A8 commands).
+  scan:
+    # Skipped files (globs, relative to the plugins folder). Player data and translations aren't config.
+    skip:
+      - "dkLedger/**"
+      - "**/locales/**"
+      - "**/lang/**"
+      - "**/languages/**"
+      - "**/translations/**"
+      - "**/userdata/**"
+      - "**/playerdata/**"
+      - "**/players/**"
+      - "**/database/**"
+      - "**/logs/**"
+      - "**/backups/**"
+      - "**/cache/**"
+      - "**/yaml-storage/**"
+    # Bigger files are data, not config: skipped.
+    max-file-kb: 2048

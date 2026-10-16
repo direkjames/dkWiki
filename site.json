@@ -1,0 +1,72 @@
+{
+  "title": "dk suite wiki",
+  "tagline": "Commands, settings and how-it-works for every plugin on our Oneblock server.",
+  "author": "direk james",
+  "base": "/dkwiki/",
+  "repo": "direkjames/dkwiki",
+  "branch": "main",
+  "upcoming": [
+    {
+      "id": "dkafk",
+      "title": "dkAFK",
+      "icon": "afk",
+      "tagline": "AFK detection for the whole suite."
+    },
+    {
+      "id": "dksleep",
+      "title": "dkSleep",
+      "icon": "sleep",
+      "tagline": "Skip the night with a vote."
+    },
+    {
+      "id": "dkcodes",
+      "title": "dkCodes",
+      "icon": "codes",
+      "tagline": "Redeem codes for rewards."
+    },
+    {
+      "id": "dkcommands",
+      "title": "dkCommands",
+      "icon": "commands",
+      "tagline": "Command aliases, cooldowns and hidden commands."
+    },
+    {
+      "id": "dkcrates",
+      "title": "dkCrates",
+      "icon": "crates",
+      "tagline": "Crates opened with virtual keys."
+    }
+  ],
+  "quick": [
+    {
+      "title": "How do I earn bank interest?",
+      "desc": "Online and offline rates, and why AFK time pays less.",
+      "page": "dkbank/interest.md"
+    },
+    {
+      "title": "What does each bank tier give?",
+      "desc": "What every tier holds and pays, and how to upgrade.",
+      "page": "dkbank/tiers.md"
+    },
+    {
+      "title": "Why is my bank locked?",
+      "desc": "The alt-account limit, and how staff can allow an account.",
+      "page": "dkbank/alt-limit.md"
+    },
+    {
+      "title": "Which bank commands can I use?",
+      "desc": "Every command, with the permission it needs.",
+      "page": "dkbank/commands.md"
+    },
+    {
+      "title": "How do staff watch the economy?",
+      "desc": "Where money comes from and goes, and what raises an alert.",
+      "page": "dkledger/index.md"
+    },
+    {
+      "title": "What does this word mean?",
+      "desc": "Tier, cap, sink, money supply and more in plain language.",
+      "page": "start/glossary.md"
+    }
+  ]
+}

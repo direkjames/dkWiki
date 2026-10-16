@@ -1,0 +1,1 @@
+{ "title": "dkBank", "kind": "plugin", "order": 3, "icon": "bank", "tagline": "Bank accounts, interest and tiers.", "version": "1.1.0", "status": "ready" }

@@ -1,0 +1,15 @@
+{
+  "name": "dkwiki",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The dk suite wiki: commands, settings and how-it-works for every dk plugin.",
+  "author": "direk james",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node scripts/dev.mjs",
+    "sync": "node scripts/sync-sources.mjs",
+    "check": "node build.mjs && node scripts/check.mjs"
+  }
+}

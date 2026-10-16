@@ -1,0 +1,26 @@
+{
+  "dkcore": {
+    "repo": "direkjames/dkCore",
+    "files": {
+      "plugin.yml": "src/main/resources/plugin.yml",
+      "config.yml": "src/main/resources/config.yml"
+    },
+    "commit": "7baae2a"
+  },
+  "dkbank": {
+    "repo": "direkjames/dkBank",
+    "files": {
+      "plugin.yml": "plugin/src/main/resources/plugin.yml",
+      "config.yml": "plugin/src/main/resources/config.yml"
+    },
+    "commit": "f5d7810"
+  },
+  "dkledger": {
+    "repo": "direkjames/dkLedger",
+    "files": {
+      "plugin.yml": "src/main/resources/plugin.yml",
+      "config.yml": "src/main/resources/config.yml"
+    },
+    "commit": "6ed20e5"
+  }
+}

@@ -1,0 +1,97 @@
+name: dkBank
+version: '${version}'
+main: dev.direk.dkbank.DkBankPlugin
+api-version: '1.21.4'
+author: direk james
+description: A premium bank with separate online and offline interest.
+folia-supported: false
+# Economy plugins are listed so they load first: dkBank needs them when the server stops, to finish refunds.
+softdepend: [Vault, Essentials, CMI, PlaceholderAPI]
+
+# Commands are registered with Paper's Brigadier API in code.
+
+permissions:
+  dkbank.use:
+    description: Use /bank and see your own balance.
+    default: true
+    children:
+      dkbank.deposit: true
+      dkbank.withdraw: true
+      dkbank.pay: true
+      dkbank.history: true
+      dkbank.interest: true
+      dkbank.tiers: true
+      dkbank.upgrade: true
+      dkbank.top: true
+  dkbank.deposit:
+    description: Deposit money into the bank.
+    default: true
+  dkbank.withdraw:
+    description: Withdraw money from the bank.
+    default: true
+  dkbank.pay:
+    description: Send money to another player's bank.
+    default: true
+  dkbank.history:
+    description: See your own transaction history.
+    default: true
+  dkbank.interest:
+    description: See your interest rates and next payout (/bank interest).
+    default: true
+  dkbank.tiers:
+    description: See the bank tiers (/bank tiers).
+    default: true
+  dkbank.upgrade:
+    description: Buy the next bank tier (/bank upgrade).
+    default: true
+  dkbank.top:
+    description: See the leaderboard (/bank top).
+    default: true
+  dkbank.balance.others:
+    description: See other players' bank balances.
+    default: op
+  dkbank.admin:
+    description: All admin commands.
+    default: op
+    children:
+      dkbank.admin.give: true
+      dkbank.admin.take: true
+      dkbank.admin.set: true
+      dkbank.admin.history: true
+      dkbank.admin.reload: true
+      dkbank.admin.tier: true
+      dkbank.admin.alts: true
+      dkbank.admin.economy: true
+      dkbank.admin.info: true
+      dkbank.balance.others: true
+  dkbank.admin.give:
+    description: Add money to a bank account.
+    default: op
+  dkbank.admin.take:
+    description: Remove money from a bank account.
+    default: op
+  dkbank.admin.set:
+    description: Set a bank balance.
+    default: op
+  dkbank.admin.history:
+    description: See anyone's transaction history.
+    default: op
+  dkbank.admin.reload:
+    description: Reload the configuration.
+    default: op
+  dkbank.admin.tier:
+    description: Change a player's bank tier.
+    default: op
+  dkbank.admin.alts:
+    description: See accounts sharing a connection, and allow alt accounts.
+    default: op
+  dkbank.admin.economy:
+    description: See the economy report (/bank admin economy).
+    default: op
+  dkbank.admin.info:
+    description: See versions and setup (/bank admin info), for support requests.
+    default: op
+  dkbank.alts.bypass:
+    description: Never locked by the alt-account limit.
+    default: op
+  # dkbank.tier.<name> (e.g. dkbank.tier.gold) gives that tier from tiers.yml. Not given to ops by default.
